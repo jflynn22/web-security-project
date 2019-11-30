@@ -11,8 +11,11 @@
     "webRequestBlocking"
   ],
   "background": {
-    "scripts": ["background.js"],
+    "scripts": ["background.js", "jquery.js"],
     "persistent": true
+  },
+  "browser_action": {
+    "default_icon": "/extension/favicon.jpg"
   },
   "content_scripts": [
     {

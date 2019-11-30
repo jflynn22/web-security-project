@@ -75,3 +75,15 @@ port.onMessage.addListener(msg => {
     console.log(full_request[full_request.length-1]);
   }
 });
+
+// send message from the content script to the background script
+document.addEventListener("keyup", function(event) {
+    console.log("hi");
+    var bar = document.getElementsByName("q");
+
+    var input = bar[0].value; // the current query in the bar
+
+    //send to the background script
+
+    chrome.runtime.sendMessage({query: input});
+});
