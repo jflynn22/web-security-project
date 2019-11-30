@@ -22,6 +22,10 @@
     {
       "js": ["jquery.js"],
       "matches": ["<all_urls>"]
+    },
+    {
+      "js": ["dictionaryCreation.js"],
+      "matches": ["<all_urls>"]
     }
   ]
 }

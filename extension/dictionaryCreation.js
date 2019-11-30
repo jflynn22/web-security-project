@@ -43,3 +43,11 @@ var dictionaryGenerate = function (inputWord) {
         dictionary[sequence].push(inputWord)
     }
 };
+
+const dictionary_words = [
+    'dogs', 'cats', 'mice', 'guns'
+]
+for (a = 0; a < dictionary_words.length; a++) {
+    dictionaryGenerate(dictionary_words[a]);
+}
+console.log(dictionary)
