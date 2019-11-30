@@ -24,7 +24,18 @@ var charLength = {
     'w': 7,
     'x': 7,
     'y': 7,
-    'z': 7
+    'z': 7,
+    '%': 6,
+    '0': 5,
+    '1': 5,
+    '2': 5,
+    '3': 6,
+    '4': 6,
+    '5': 6,
+    '6': 6,
+    '7': 6,
+    '8': 6,
+    '9': 6
 };
 
 var dictionary = {};
@@ -46,7 +57,7 @@ var dictionaryGenerate = function (inputWord) {
 
 const dictionary_words = [
     'dogs', 'cats', 'mice', 'guns'
-]
+];
 for (a = 0; a < dictionary_words.length; a++) {
     dictionaryGenerate(dictionary_words[a]);
 }
