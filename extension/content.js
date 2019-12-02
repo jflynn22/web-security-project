@@ -36,7 +36,6 @@ port.onMessage.addListener(msg => {
   }
 
   if (size_diff > 1 && size_diff < 10 && (msg.url.match(/cp=10+[A-Za-z&]/) === null || (generate_size(msg.url + 'ab') - generate_size(word[word.length-2])) > 3)) {
-    console.log((generate_size(msg.url + 'ab') - generate_size(word[word.length-2])));
     console.log("NEW WORD");
     word.pop();
     full_request.push(word);
@@ -64,7 +63,6 @@ port.onMessage.addListener(msg => {
 
 // send message from the content script to the background script
 document.addEventListener("keyup", function(event) {
-    console.log("hi");
     var bar = document.getElementsByName("q");
 
     var input = bar[0].value; // the current query in the bar
