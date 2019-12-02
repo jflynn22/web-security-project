@@ -11,7 +11,7 @@ function generate_size (url) {
     if (charLength[url[i]] != null) {
     size = size + charLength[url[i]];}
   }
-  return Math.ceil(size/8);
+  return Math.ceil((size)/8);
 }
 
 const port = chrome.extension.connect({
@@ -26,7 +26,7 @@ port.onMessage.addListener(msg => {
   msg_size = generate_size(msg.url);
   if (word == null || word.length == 0) {
     word.push(' ');
-    word_sizes.push(msg_size-1);
+    word_sizes.push(generate_size(msg.url.replace(/p=[a-z]&/, 'p=&' )));
   }
   word.push(msg.url);
   word_sizes.push(msg_size);
@@ -48,6 +48,7 @@ port.onMessage.addListener(msg => {
             extra_size = word_sizes[j] - word_sizes[j-1];
       }
         if (growth_size > 10) {
+          console.log("A");
             growth_size = growth_size - extra_size
         }
       sequence.push(growth_size);
