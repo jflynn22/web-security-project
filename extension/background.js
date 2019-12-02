@@ -1,3 +1,5 @@
+var flag = false
+
 chrome.extension.onConnect.addListener(function(port) {
   port.onMessage.addListener(function(msg) {
     if (msg.request === "requestIntercept") {
@@ -15,9 +17,15 @@ chrome.extension.onConnect.addListener(function(port) {
   });
 });
 
+chrome.browserAction.onClicked.addListener(function() {
+    flag = !flag
+});
+
 //Listener for adding random packets
 chrome.extension.onMessage.addListener(async function(msg, sender, sendResponse) {
-
+    if (!flag) {
+        return
+    }
     var query = msg.query;
 
     console.log(query);

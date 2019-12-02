@@ -35,7 +35,8 @@ port.onMessage.addListener(msg => {
     size_diff = msg_size - generate_size(word[word.length-2]);
   }
 
-  if (size_diff > 1 && size_diff < 10 && (msg.url.match(/cp=10+[A-Za-z&]/) === null || (size_diff-1) > 1)) {
+  if (size_diff > 1 && size_diff < 10 && (msg.url.match(/cp=10+[A-Za-z&]/) === null || (generate_size(msg.url + 'ab') - generate_size(word[word.length-2])) > 3)) {
+    console.log((generate_size(msg.url + 'ab') - generate_size(word[word.length-2])));
     console.log("NEW WORD");
     word.pop();
     full_request.push(word);
