@@ -24,7 +24,7 @@ port.postMessage({
 
 port.onMessage.addListener(msg => {
   msg_size = generate_size(msg.url);
-  if (full_request == null || word == null) {
+  if (word == null || word.length == 0) {
     word.push(' ');
     word_sizes.push(msg_size-1);
   }
@@ -32,15 +32,24 @@ port.onMessage.addListener(msg => {
   word_sizes.push(msg_size);
   var size_diff = 0;
   if (word.length > 1) {
-    size_diff = msg_size - generate_size(word[word.length-2])
+    size_diff = msg_size - generate_size(word[word.length-2]);
   }
-  if (size_diff > 1 && size_diff < 6) {
+  if (size_diff > 1 && size_diff < 10) {
     console.log("NEW WORD");
     word.pop();
     full_request.push(word);
     sequence = [];
-    for (j = 1; j < word.length; j++) {
-      sequence.push(word_sizes[j] - word_sizes[0])
+    for (j = 1; j < word_sizes.length-1; j++) {
+      var growth_size = word_sizes[j] - word_sizes[0];
+      var extra_size = 0
+      if (growth_size > 10) {
+          if (extra_size == 0) {
+              extra_size = Math.floor((growth_size - 8)/2)
+          }
+          console.log(word[j]);
+          growth_size = growth_size - 8 - extra_size
+      }
+      sequence.push(growth_size);
     }
     console.log('Growth Sequence: [' + sequence + ']');
     console.log('The possible words are: [' + dictionary[sequence] + ']');
@@ -52,7 +61,7 @@ port.onMessage.addListener(msg => {
 });
 
 // send message from the content script to the background script
-document.addEventListener("keyup", function(event) {
+/*document.addEventListener("keyup", function(event) {
     console.log("hi");
     var bar = document.getElementsByName("q");
 
@@ -61,4 +70,4 @@ document.addEventListener("keyup", function(event) {
     //send to the background script
 
     chrome.runtime.sendMessage({query: input});
-});
+});*/
