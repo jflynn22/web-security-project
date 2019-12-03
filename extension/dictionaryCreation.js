@@ -2389,6 +2389,8 @@ const dictionary_words = [
     "zero"
 ];
 
+//dictionary_words2 = ['character']
+
 for (a = 0; a < dictionary_words.length; a++) {
     dictionaryGenerate(dictionary_words[a]);
 };

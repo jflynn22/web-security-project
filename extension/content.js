@@ -14,6 +14,7 @@ function generate_size (url) {
   return Math.ceil((size)/8);
 }
 
+
 const port = chrome.extension.connect({
   name: "requestIntercept"
 });
@@ -26,7 +27,7 @@ port.onMessage.addListener(msg => {
   msg_size = generate_size(msg.url);
   if (word == null || word.length == 0) {
     word.push(' ');
-    word_sizes.push(generate_size(msg.url.replace(/p=[a-z]&/, 'p=&' )));
+    word_sizes.push(generate_size(msg.url.replace(/q=[a-z]&/, 'q=&' )));
   }
   word.push(msg.url);
   word_sizes.push(msg_size);
@@ -42,17 +43,20 @@ port.onMessage.addListener(msg => {
     sequence = [];
     var extra_size = 0;
       for (j = 1; j < word_sizes.length-1; j++) {
+        if (word[j].match(/cp=10+&/) !== null) {
+            word_sizes[0] = generate_size(word[0] + '0z') - 1;
+        }
         var growth_size = word_sizes[j] - word_sizes[0];
         console.log(word[j]);
+        console.log(word_sizes[j]);
         if (word_sizes[j] - word_sizes[j-1] > 10 && extra_size === 0) {
             extra_size = word_sizes[j] - word_sizes[j-1];
-      }
+        }
         if (growth_size > 10) {
-          console.log("A");
             growth_size = growth_size - extra_size
         }
-      sequence.push(growth_size);
-    }
+        sequence.push(growth_size);
+      }
     console.log('Growth Sequence: [' + sequence + ']');
     console.log('The possible words are: [' + dictionary[sequence] + ']');
     word = [];
