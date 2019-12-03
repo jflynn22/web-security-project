@@ -24,19 +24,24 @@ port.postMessage({
 });
 
 port.onMessage.addListener(msg => {
-  msg_size = generate_size(msg.url);
+  if (msg.url.match(/cp=[0-9]*[0-2]&/) !== null) {
+      msg_size = generate_size(msg.url + 'ssv') - 2
+  } else {
+      msg_size = generate_size(msg.url)
+  }
   if (word == null || word.length == 0) {
     word.push(' ');
-    word_sizes.push(generate_size(msg.url.replace(/q=[a-z]&/, 'q=&' )));
+    word_sizes.push(generate_size(msg.url.replace(/q=[a-z]&/, 'q=ssv&' ))-2);
   }
   word.push(msg.url);
   word_sizes.push(msg_size);
+
   var size_diff = 0;
   if (word.length > 1) {
     size_diff = msg_size - generate_size(word[word.length-2]);
   }
 
-  if (size_diff > 1 && size_diff < 10 && (msg.url.match(/cp=10+[A-Za-z&]/) === null || (generate_size(msg.url + 'ab') - generate_size(word[word.length-2])) > 3)) {
+  if (size_diff > 1 && size_diff < 10 && (msg.url.match(/cp=10+&/) === null || (generate_size(msg.url + 'ab') - generate_size(word[word.length-2])) > 3)) {
     console.log("NEW WORD");
     word.pop();
     full_request.push(word);
@@ -44,7 +49,11 @@ port.onMessage.addListener(msg => {
     var extra_size = 0;
       for (j = 1; j < word_sizes.length-1; j++) {
         if (word[j].match(/cp=10+&/) !== null) {
-            word_sizes[0] = generate_size(word[0] + '0z') - 1;
+            if (word[0].match(/cp=[0-9]*[0-2]&/) !== null) {
+                word_sizes[0] = generate_size(word[0] + 'ssv0z') - 1;
+            } else {
+                word_sizes[0] = generate_size(word[0] + '0z') - 1;
+            }
         }
         var growth_size = word_sizes[j] - word_sizes[0];
         console.log(word[j]);
